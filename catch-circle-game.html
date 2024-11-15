@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Catch the Circle Game</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        #game-container {
+            width: 600px;
+            height: 400px;
+            background-color: white;
+            border: 2px solid #333;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        #target {
+            width: 50px;
+            height: 50px;
+            background-color: #ff4444;
+            border-radius: 50%;
+            position: absolute;
+            transition: all 0.2s ease;
+        }
+
+        #score-container {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        #timer-container {
+            margin-top: 10px;
+            font-size: 20px;
+            color: #666;
+        }
+
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="target"></div>
+        <div class="game-over" id="game-over">
+            <h2>Game Over!</h2>
+            <p>Final Score: <span id="final-score">0</span></p>
+            <button onclick="startGame()">Play Again</button>
+        </div>
+    </div>
+    <div id="score-container">Score: <span id="score">0</span></div>
+    <div id="timer-container">Time: <span id="timer">30</span>s</div>
+
+    <script>
+        const target = document.getElementById('target');
+        const scoreElement = document.getElementById('score');
+        const timerElement = document.getElementById('timer');
+        const gameOverElement = document.getElementById('game-over');
+        const finalScoreElement = document.getElementById('final-score');
+        const gameContainer = document.getElementById('game-container');
+
+        let score = 0;
+        let timeLeft = 30;
+        let gameInterval;
+        let timerInterval;
+
+        function moveTarget() {
+            const containerWidth = gameContainer.clientWidth - target.clientWidth;
+            const containerHeight = gameContainer.clientHeight - target.clientHeight;
+            
+            const newX = Math.random() * containerWidth;
+            const newY = Math.random() * containerHeight;
+            
+            target.style.left = `${newX}px`;
+            target.style.top = `${newY}px`;
+        }
+
+        function updateScore() {
+            score++;
+            scoreElement.textContent = score;
+        }
+
+        function updateTimer() {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+            
+            if (timeLeft <= 0) {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            clearInterval(gameInterval);
+            clearInterval(timerInterval);
+            target.style.display = 'none';
+            gameOverElement.style.display = 'block';
+            finalScoreElement.textContent = score;
+        }
+
+        function startGame() {
+            // Reset game state
+            score = 0;
+            timeLeft = 30;
+            scoreElement.textContent = score;
+            timerElement.textContent = timeLeft;
+            target.style.display = 'block';
+            gameOverElement.style.display = 'none';
+
+            // Clear any existing intervals
+            clearInterval(gameInterval);
+            clearInterval(timerInterval);
+
+            // Start game loops
+            moveTarget();
+            gameInterval = setInterval(moveTarget, 1000);
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        target.addEventListener('click', (e) => {
+            e.stopPropagation();
+            updateScore();
+            moveTarget();
+        });
+
+        // Start the game initially
+        startGame();
+    </script>
+</body>
+</html>
