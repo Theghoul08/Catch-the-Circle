@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Catch the Circle Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="hud-container">
+        <div class="hud-item">
+            <label for="difficulty-select">Difficulty:</label>
+            <select id="difficulty-select" onchange="changeDifficulty()">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+                <option value="impossible">Impossible</option>
+            </select>
+        </div>
+        <div class="hud-item">Score: <span id="score">0</span></div>
+        <div class="hud-item">High Score: <span id="high-score">0</span></div>
+        <div class="hud-item">Time: <span id="timer">30</span>s</div>
+        <div class="hud-item">Active Power-ups: <span id="power-ups"></span></div>
+    </div>
+
+    <div id="game-container">
+        <div id="target"></div>
+        <div id="combo-indicator"></div>
+        <div id="game-over">
+            <h2>Game Over!</h2>
+            <div class="stats-container">
+                <div class="stat-item">Final Score: <span id="final-score">0</span></div>
+                <div class="stat-item">Highest Combo: <span id="highest-combo">0</span></div>
+                <div class="stat-item">Targets Hit: <span id="targets-hit">0</span></div>
+                <div class="stat-item">Power-ups Collected: <span id="powerups-collected">0</span></div>
+            </div>
+            <button onclick="startGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
